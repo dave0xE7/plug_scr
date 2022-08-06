@@ -19,7 +19,8 @@ echo $PLUG_ID
 
 if ! [ -d $PLUG/plug_data ]; then
     cd $PLUG
-    git clone git@github.com:dave0xE7/plug_data.git
+    # git clone git@github.com:dave0xE7/plug_data.git
+    git clone https://github.com/dave0xE7/plug_data.git
 fi
 
 cd $PLUG/plug_data
