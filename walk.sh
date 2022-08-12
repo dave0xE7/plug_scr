@@ -2,7 +2,6 @@
 
 source common.sh
 
-
 function WalkDir () {
     echo "WalkDir $1"
 
@@ -35,4 +34,66 @@ function WalkDir () {
     echo "done"
 }
 
-WalkDir /home/user/dev
+#WalkDir /home/user/dev
+
+FindLevelDirs() { find $1 -mindepth 1 -maxdepth 1 -type d; }
+FindLevelFiles() { find $1 -mindepth 1 -maxdepth 1 -type f; }
+
+WalkPath() {
+    echo "WalkPath $1"
+    for i in $(FindLevelDirs $1); do
+        printf "\t$(basename $i) " 
+        subdirs=$(FindLevelDirs $i | wc -l)
+        subfiles=$(FindLevelFiles $i | wc -l)
+        if [[ $subdirs > 1 ]]; then
+            printf "$subdirs dirs "
+        fi
+        if [[ $subfiles > 1 ]]; then
+            printf "$subfiles files "
+        fi
+        printf '\n'
+    done
+}
+
+#WalkPath $HOME
+
+
+WalkInit() {
+    find $1 -type d > /tmp/back/dirs
+    find $1 -type f > /tmp/back/files
+
+    dirs=$(cat /tmp/back/dirs | wc -l)
+    files=$(cat /tmp/back/files | wc -l)
+
+    echo "found $dirs dirs and $files files in $1"
+}
+
+WalkChanges() {
+    last=$(( ($(date -r /tmp/back/files +%s) - $(date +%s)) / 60 ))
+    echo "last find $last"
+    find $1 -type f -cmin $last > /tmp/back/changes
+
+    for i in $(cat /tmp/back/changes); do
+        echo "$i"
+        md5sum $i
+        grep $i /tmp/back/hashes
+    done
+}
+
+if ! [ -f /tmp/back/files ]; then
+    WalkInit $HOME/dev
+else
+    WalkChanges $HOME/dev
+fi
+
+if ! [ -f /tmp/back/hashes ]; then
+    sumfiles=$(cat /tmp/back/files | wc -l)
+    echo "hashing $sumfiles files"
+    j=0
+    for i in $(cat /tmp/back/files); do
+        md5sum $i >> /tmp/back/hashes
+        j=$[j+1];
+        echo "$sumfiles/$j"
+    done
+
+fi
