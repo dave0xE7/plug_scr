@@ -59,8 +59,8 @@ WalkPath() {
 
 
 WalkInit() {
-    find $1 -type d > /tmp/back/dirs
-    find $1 -type f > /tmp/back/files
+    find $1 -type d ! -path '*/.git/*/*' > /tmp/back/dirs
+    find $1 -type f ! -path '*/.git/*/*' > /tmp/back/files
 
     dirs=$(cat /tmp/back/dirs | wc -l)
     files=$(cat /tmp/back/files | wc -l)
@@ -71,7 +71,7 @@ WalkInit() {
 WalkChanges() {
     last=$(( ($(date -r /tmp/back/files +%s) - $(date +%s)) / 60 ))
     echo "last find $last"
-    find $1 -type f -cmin $last > /tmp/back/changes
+    find $1 -type f ! -path '*/.git/*/*' -cmin $last > /tmp/back/changes
 
     for i in $(cat /tmp/back/changes); do
         echo "$i"

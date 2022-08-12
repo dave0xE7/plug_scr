@@ -14,7 +14,10 @@ function NF () {
     eval "awk -F' ' '{print \$$1}'"
 }
 
-Timestamp () { date +%s; }
+Timestamp() { date +%s; }
+UptimeEpoch() { date --date="$(uptime -s)" +%s; }
+UptimeMin() { echo $(( ($(date --date="$(uptime -s)" +%s) - $(date +%s)) / 60 )); }
+
 
 function xsleep () {
     echo "xsleep $1"
