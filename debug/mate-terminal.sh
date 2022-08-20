@@ -1,0 +1,1 @@
+mate-terminal --geometry=50x10+1930+10 --zoom=1 --working-directory=$HOME/.plug/ --title='plug-terminal' --command='bash'

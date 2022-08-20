@@ -33,5 +33,15 @@ function ListBlockDevices () {
     lsblk --json    
 }
 
+function GetIpAddresses () {
+    ip -j addr
+}
+function GetIpRoutes () {
+    ip -j route
+}
+function GetIpInfo () {
+    curl -s ipinfo.io/json | jq -cM
+}
+
 # GetSystemInfo | jq
 # ListBlockDevices | jq

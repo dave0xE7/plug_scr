@@ -2,6 +2,19 @@
 
 source common.sh
 
+# cd /sys/devices
+# for i in $(find * -maxdepth 0 -type d); do
+#     subdirs=$(find $i -type d | wc -l);
+#     subfiles=$(find $i -type f | wc -l);
+#     echo "$i $subdirs $subfiles"
+# done
+
+# cd /sys/devices/
+# for i in $(find * -type f ! -path '*power*'); do
+#     echo "$i"
+    
+# done
+
 function WalkDir () {
     echo "WalkDir $1"
 
