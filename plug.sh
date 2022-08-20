@@ -6,7 +6,7 @@
 #
 ##############################################################################
 
-PLUG_Config() {
+function PLUG_Config() {
     export PLUG_APP_NAME='plug'
     export PLUG_APP_URL='http://invidec.net:8000'
 
@@ -20,11 +20,11 @@ PLUG_Config() {
     #PLUG_DEST=/opt/plug
     #PLUG_DEST=~/plug
     #
-    PLUG_TEMP_DIR=/tmp/plug
-    PLUG_LOCK_DIR=/var/lock/plug
-    PLUG_USER=plug
+    export PLUG_TEMP_DIR=/tmp/plug
+    export PLUG_LOCK_DIR=/var/lock/plug
+    export PLUG_USER=plug
     # PLUG_LOG_FILE=/var/log/plug.log
-    PLUG_LOG_FILE=/tmp/plug.log
+    export PLUG_LOG_FILE=/tmp/plug.log
 
     # PLUG_LOOP_TIMEOUT=5
 
@@ -32,7 +32,7 @@ PLUG_Config() {
 
     # PLUG_DEFAULT_AUTHORIZED_KEYS='ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCxXeZG/Engz5P59E0G7FVp3E8hYeEu9PDowInC7xnQyvV/eK1yV87wrBtorePNvuW50aZOTylz/TshPbQNY7eDW8G4jkKIyBpf09hsXo1cW+pdWsLcA4dvKDdqtQmSW09BmfoDZJDpz/yDu4cChJ1LZuQ4RY7mWHK3EZIXIoSChLlO3SEIBNyARCkPM2EzKG3KZPB2aqHrQW/MjtmFnxsfCv4UDzJ24+S2fOaNWgJNcmxx4sORRT8YrGTEgQgOn1rfYJdZcYsAurdsvUNKkJGpVpFW62ZfU7zfqR48AFITTMqk5c/HSlL/hxZib51CJck5B/ehSvBgdNfk6QoYif2loqN7SCC0cVLb8Mr5RFbtCWe0X9E0vc37m5iFw7p15a5jCKlsBUJsofkue3rx1BUgfqU/rLRzCh/2D0o+eM/pEN0jTmIRBzcHNrvOj0sJLhHj/jjsWEmkg5FWiUiod1okzWT20BOi7NAxXqWxAY0cSp6hgv3VE8RWbrEiXD0/e3U= service@parrot'
 
-    PLUG_TEST_FOR_COMMANDS='bash sh curl wget ssh'
+    export PLUG_TEST_FOR_COMMANDS='bash sh curl wget ssh'
 
     # following 2 values will get defined by Init
     #PLUG_DEST=''
@@ -41,14 +41,15 @@ PLUG_Config() {
     export PLUG_DAEMON_LOCK_FILE=daemon.lock
     export PLUG_DAEMON_LOG_FILE=daemon.log
 
-    PLUG_DAEMON_INIT_EVAL="echo 'initeval';"
-    PLUG_DAEMON_LOOP_EVAL="echo 'loopeval'; "
+    export PLUG_DAEMON_INIT_EVAL="echo 'initeval';"
+    export PLUG_DAEMON_LOOP_EVAL="echo 'loopeval'; "
 
-    PLUG_HOME_DEST=~/.plug
-    PLUG_ROOT_DEST=/opt/plug
+    export PLUG_HOME_DEST=~/.plug
+    export PLUG_ROOT_DEST=/opt/plug
 
-    PLUG_ROOT_TEMP=/tmp/plug
+    export PLUG_ROOT_TEMP=/tmp/plug
 }
+
 PLUG_Config
 # configuration end
 ###############################################################################
@@ -194,7 +195,8 @@ PLUG_LIBRARY_Setup() {
         systemctl restart tor
 
         #/etc/init.d/tor restart
-        export onionHostname=$(cat /var/lib/tor/plug_hidden_service/hostname)
+        onionHostname=$(cat /var/lib/tor/plug_hidden_service/hostname)
+        export onionHostname
     }
 
     function PLUG_Setup_sshd() {
