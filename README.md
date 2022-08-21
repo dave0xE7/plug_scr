@@ -21,3 +21,8 @@ curl https://raw.githubusercontent.com/dave0xE7/plug_scr/main/main.sh | bash
         create systemd
         create sv
         create .bashrc
+
+
+
+# host system identification and hardware description
+
