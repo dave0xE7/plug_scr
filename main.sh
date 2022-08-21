@@ -9,13 +9,11 @@ else
 fi
 
 if [ -d "$PLUG_DEST" ]; then
-
     if [ -f "$PLUG_DEST/config.sh" ]; then
-
-        echo "hostid=$(cat $PLUG_DEST/hostid)"
+        echo "plug found"
+        #echo "hostid=$(cat $PLUG_DEST/hostid)"
     fi
 else
-
     if (mkdir -vp $PLUG_DEST) ; then
         git clone $PLUG_GIT_REPO $PLUG_DEST
     fi
@@ -32,6 +30,9 @@ fi
 
 LoadConfigFile "$PLUG_DEST/config.sh"
 
+function Installation () {
+    echo "done"
+}
 
 function Update() {
     git -C $PLUG_DEST pull
