@@ -117,7 +117,7 @@ while (( $# > 0 )); do
         ;;
 
         daemon) 
-        source lib/daemon.sh ${1}
+        source $PLUG_DEST/lib/daemon.sh ${1}
         shift # shift once since flags have no values
         ;;
         -s|--switch)
