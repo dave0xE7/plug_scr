@@ -25,7 +25,7 @@ source $PLUG_DEST/lib/info.sh
 if [ ! -f "$PLUG_DEST/config.sh" ]; then
     echo "setup='$(date)'" > "$PLUG_DEST/config.sh"
     PLUG_ID=$(GetSystemInfo | JsonPipe | Hash)
-    echo "hostid='$PLUG_ID'" >> "$PLUG_DEST/config.sh"
+    echo "PLUG_ID='$PLUG_ID'" >> "$PLUG_DEST/config.sh"
 fi
 
 LoadConfigFile "$PLUG_DEST/config.sh"
@@ -36,6 +36,15 @@ function Installation () {
 
 function Update() {
     git -C $PLUG_DEST pull
+}
+
+function Info () {
+    echo "plug info"
+    echo ""
+    echo ""
+    ShowVariable PLUG_DEST
+    ShowVariable PLUG_ID
+    echo ""
 }
 
 function ShowHelpMessage () {
@@ -61,6 +70,10 @@ while (( $# > 0 )); do
         ;;
         update)
         Update
+        shift # shift once since flags have no values
+        ;;
+        info) 
+        Info
         shift # shift once since flags have no values
         ;;
         -s|--switch)
