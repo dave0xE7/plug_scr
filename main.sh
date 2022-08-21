@@ -23,6 +23,8 @@ else
     fi
 fi
 
+source $PLUG_DEST/lib/common.sh
+
 if [ ! -f "$PLUG_DEST/config.sh" ]; then
     echo "setup='$(date)'" > "$PLUG_DEST/config.sh"
 fi
