@@ -2,6 +2,21 @@
 
 PLUG_GIT_REPO='https://github.com/dave0xE7/plug_scr/'
 
+SCRIPT_NAME=""
+case "${0}" in
+    "bash" | "/bin/bash")
+        # ShowVariable 0
+        # ShowVariable BASH_SOURCE
+        if [[ -n "${BASH_SOURCE}" ]]; then
+            export SCRIPT_NAME="${BASH_SOURCE}"
+        fi
+        ;;
+    *)
+        # echo "default (none of above)"
+        export SCRIPT_NAME="${0}"
+        ;;
+    esac
+
 if [ ! -n "$PLUG_DEST" ]; then
     PLUG_DEST="$HOME/.plug"
 else
@@ -89,6 +104,12 @@ while (( $# > 0 )); do
         ;;
         info) 
         Info
+        shift # shift once since flags have no values
+        ;;
+
+        d) 
+        source lib/daemon.sh
+        Daemon
         shift # shift once since flags have no values
         ;;
         -s|--switch)
