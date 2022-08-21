@@ -18,7 +18,7 @@ case "${0}" in
     esac
 
 if [ ! -n "$PLUG_DEST" ]; then
-    PLUG_DEST="$HOME/.plug"
+    export PLUG_DEST="$HOME/.plug"
 else
     echo "PLUG_DEST was already declared PLUG_DEST=$PLUG_DEST"
 fi
