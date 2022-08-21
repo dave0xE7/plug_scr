@@ -52,10 +52,6 @@ fi
 
 LoadConfigFile "$PLUG_DEST/config.sh"
 
-function Installation () {
-    echo "done"
-}
-
 function Update() {
     git -C $PLUG_DEST pull
 }
