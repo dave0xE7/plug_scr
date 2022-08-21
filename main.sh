@@ -22,9 +22,12 @@ else
 fi
 
 source $PLUG_DEST/lib/common.sh
+source $PLUG_DEST/lib/info.sh
 
 if [ ! -f "$PLUG_DEST/config.sh" ]; then
     echo "setup='$(date)'" > "$PLUG_DEST/config.sh"
+    PLUG_ID=$(GetSystemInfo | JsonPipe | Hash)
+    echo "hostid='$PLUG_ID'" >> "$PLUG_DEST/config.sh"
 fi
 
 LoadConfigFile "$PLUG_DEST/config.sh"
