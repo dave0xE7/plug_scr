@@ -10,7 +10,7 @@ fi
 
 if [ -d "$PLUG_DEST" ]; then
 
-    if [ -f "$PLUG_DEST/hostid" ]; then
+    if [ -f "$PLUG_DEST/config.sh" ]; then
 
         echo "hostid=$(cat $PLUG_DEST/hostid)"
     fi
@@ -22,3 +22,9 @@ else
         git clone $PLUG_GIT_REPO $PLUG_DEST
     fi
 fi
+
+if [ ! -f "$PLUG_DEST/config.sh" ]; then
+    echo "setup='$(date)'" > "$PLUG_DEST/config.sh"
+fi
+
+LoadConfigFile "$PLUG_DEST/config.sh"
