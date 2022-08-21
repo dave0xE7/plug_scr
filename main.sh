@@ -16,6 +16,10 @@ if [ -d "$PLUG_DEST" ]; then
 else
     if (mkdir -vp $PLUG_DEST) ; then
         git clone $PLUG_GIT_REPO $PLUG_DEST
+        bash $PLUG_DEST/main.sh
+        exit 0;
+    else
+        echo "error: could not create destination folder $PLUG_DEST"
     fi
 fi
 

