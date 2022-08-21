@@ -16,9 +16,7 @@ if [ -d "$PLUG_DEST" ]; then
     fi
 else
 
-    read a
-    mkdir -vp $PLUG_DEST
-    if ($?) ; then
+    if (mkdir -vp $PLUG_DEST) ; then
         git clone $PLUG_GIT_REPO $PLUG_DEST
     fi
 fi
