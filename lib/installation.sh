@@ -1,7 +1,17 @@
+#!/usr/bin/env bash
 
 
+if (( $(id -u) != 0 )); then
+    echo "I'm not root"
+    exit 1
+fi
 
+if [ ! -n "$PLUG_DEST" ]; then
+    echo "PLUG_DEST not set"
+    exit 1
+fi
 
+echo "PLUG_DEST=$PLUG_DEST"
 
 
 
@@ -26,5 +36,6 @@ else
         echo "directory \"$HOME/.local\" exists"
     fi
     
+    source $PLUG_DEST/lib/install_systemd.sh
 
 fi
