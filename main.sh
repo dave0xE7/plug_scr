@@ -29,9 +29,12 @@ if [ -d "$PLUG_DEST" ]; then
         #echo "hostid=$(cat $PLUG_DEST/hostid)"
     fi
 else
+    # creating destination folder
     if (mkdir -vp $PLUG_DEST) ; then
+        # cloning from github repo into destination folder
         git clone $PLUG_GIT_REPO $PLUG_DEST
-        bash $PLUG_DEST/main.sh
+        # starting setup process and then exit current shell
+        bash $PLUG_DEST/main.sh setup
         exit 0;
     else
         echo "error: could not create destination folder $PLUG_DEST"
@@ -83,7 +86,12 @@ function ShowHelpMessage () {
     echo "[options]"
     echo "  -u # unattended mode"
     echo ""
-    echo "plug help # shows this message"
+    echo "[commands]"
+    echo "help   # shows this message"
+    echo "info   # displays some info"
+    echo "setup"
+    echo "shell"
+    echo "update"
     echo ""
 }
 
