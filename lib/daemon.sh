@@ -1,48 +1,29 @@
 #!/usr/bin/env bash
 
-# pidfile=daemon.pid
+if [ ! -n "$PLUG_DEST" ]; then
+    echo "PLUG_DEST not set"
+    exit 1
+fi
 
-# logfile=daemon.log
+export PLUG_DAEMON_INTERVAL=10
 
+export PLUG_DAEMON_LOCK_FILE=daemon.pid
+export PLUG_DAEMON_LOG_FILE=daemon.log
 
-    export PLUG_DAEMON_INTERVAL=10
+function Worker () {
+    echo "daemon started"
 
-    export PLUG_DAEMON_LOCK_FILE=daemon.lock
-    export PLUG_DAEMON_LOG_FILE=daemon.log
+    echo $$ > $PLUG_DEST/$PLUG_DAEMON_LOCK_FILE
 
-    export PLUG_DAEMON_INIT_EVAL="echo 'initeval';"
-    export PLUG_DAEMON_LOOP_EVAL="echo 'loopeval'; "
+    while true; do
 
-function Daemon_Log() {
-    echo "$1" >>$PLUG_DEST/$PLUG_DAEMON_LOG_FILE # arguments are accessible through $1, $2,...
-}
+        echo "iteration"
+        notify-send 'asdf'
+        sleep 10
 
-function Daemon_Stopped() {
-    Log_DT "daemon stopped"
-}
-
-function Daemon_Main() {
-    Log_DT "daemon started"
-
-    eval $PLUG_DAEMON_INIT_EVAL
-
-    trap Daemon_Stopped EXIT
-
-    # echo $$ >>$PLUG_DEST/$PLUG_DAEMON_LOCK_FILE
-    # for ((i = 0; i < 10; i++)); do
-    #     echo "${i}"
-    #     sleep 1
-    # done
-    i=0
-    while [ true ]; do
-        # body
-        set -x
-        ((i++))
-        Log_UT "${i} $$"
-        eval $PLUG_DAEMON_LOOP_EVAL
-        sleep $PLUG_DAEMON_INTERVAL
-        set +x
     done
+
+    echo "daemon stopped"
 }
 
 function Daemon_Run() {
@@ -50,10 +31,10 @@ function Daemon_Run() {
     # set +x
     # Daemon_Main &>/dev/null &
     # Daemon_Main &>$PLUG_DEST/$PLUG_DAEMON_LOG_FILE &
-    bash $SCRIPT_NAME d &>$PLUG_DEST/$PLUG_DAEMON_LOG_FILE &
+    bash $BASH_SOURCE worker &>/dev/null &
     # set -x
-    bgpid=$!
-    echo $bgpid >$PLUG_DEST/$PLUG_DAEMON_LOCK_FILE
+    # bgpid=$!
+    # echo $bgpid >$PLUG_DEST/$PLUG_DAEMON_LOCK_FILE
     # echo "bgpid=$bgpid"
 }
 
@@ -65,7 +46,6 @@ function Daemon_IsRunning() {
     fi
     return 1
 }
-
 function Daemon_Status() {
     echo "Daemon-Status: "
     if [ -f $PLUG_DEST/$PLUG_DAEMON_LOCK_FILE ]; then
@@ -84,10 +64,15 @@ function Daemon_Status() {
     fi
 }
 
+function Daemon_Stop() {
+    if Daemon_IsRunning; then
+        echo "stopping the daemon"
+        kill $(cat $PLUG_DEST/$PLUG_DAEMON_LOCK_FILE)
+    fi
+}
+
 function Daemon_Start() {
     echo "Daemon_Start"
-
-    fgpid=$$
     # echo "fgpid=$fgpid"
 
     if Daemon_IsRunning; then
@@ -101,30 +86,20 @@ function Daemon_Start() {
     # ps -u -f --forest --ppid $fgpid
 }
 
-function Daemon_Stop() {
-    if Daemon_IsRunning; then
-        echo "stopping the daemon"
-        kill $(cat $PLUG_DEST/$PLUG_DAEMON_LOCK_FILE)
-    fi
-}
 
-function Daemon() {
-    case "$1" in
-    "start")
-        Daemon_Start
-        ;;
-    "stop")
-        Daemon_Stop
-        ;;
-    "restart")
-        Daemon_Stop
-        Daemon_Start
-        ;;
-    "status")
-        Daemon_Status
-        ;;
-    *)
-        Daemon_Start
+POSITIONAL=()
+while (( $# > 0 )); do
+    case "${1}" in
+        start) Daemon_Start; shift;;
+        stop) Daemon_Stop; shift;;
+        status) Daemon_Status; shift;;
+        worker) Worker; shift;;
+        
+        *) # unknown flag/switch
+        POSITIONAL+=("${1}")
+        shift
         ;;
     esac
-}
+done
+
+set -- "${POSITIONAL[@]}" # restore positional params

@@ -72,6 +72,11 @@ function Shell () {
     bash --noprofile --rcfile $PLUG_DEST/lib/bashrc
 }
 
+function Setup () {
+    source $PLUG_DEST/lib/installation.sh
+    echo "done"
+}
+
 function ShowHelpMessage () {
     echo "plug <options/commands>"
     echo ""
@@ -106,10 +111,13 @@ while (( $# > 0 )); do
         Info
         shift # shift once since flags have no values
         ;;
+        setup) 
+        Setup
+        shift # shift once since flags have no values
+        ;;
 
-        d) 
-        source lib/daemon.sh
-        Daemon
+        daemon) 
+        source lib/daemon.sh ${1}
         shift # shift once since flags have no values
         ;;
         -s|--switch)
