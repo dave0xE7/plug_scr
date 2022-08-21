@@ -59,6 +59,10 @@ while (( $# > 0 )); do
         ShowHelpMessage
         shift # shift once since flags have no values
         ;;
+        update)
+        Update
+        shift # shift once since flags have no values
+        ;;
         -s|--switch)
         numOfArgs=1 # number of switch arguments
         if (( $# < numOfArgs + 1 )); then
