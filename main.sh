@@ -28,3 +28,47 @@ if [ ! -f "$PLUG_DEST/config.sh" ]; then
 fi
 
 LoadConfigFile "$PLUG_DEST/config.sh"
+
+
+function Update() {
+    git -C $PLUG_DEST pull
+}
+
+function ShowHelpMessage () {
+    echo "plug <options/commands>"
+    echo ""
+    echo "[options]"
+    echo "  -u # unattended mode"
+    echo ""
+    echo "plug help # shows this message"
+    echo ""
+}
+
+POSITIONAL=()
+while (( $# > 0 )); do
+    case "${1}" in
+        -f|--flag)
+        echo flag: "${1}"
+        shift # shift once since flags have no values
+        ;;
+        help|-h|--help)
+        ShowHelpMessage
+        shift # shift once since flags have no values
+        ;;
+        -s|--switch)
+        numOfArgs=1 # number of switch arguments
+        if (( $# < numOfArgs + 1 )); then
+            shift $#
+        else
+            echo "switch: ${1} with value: ${2}"
+            shift $((numOfArgs + 1)) # shift 'numOfArgs + 1' to bypass switch and its value
+        fi
+        ;;
+        *) # unknown flag/switch
+        POSITIONAL+=("${1}")
+        shift
+        ;;
+    esac
+done
+
+set -- "${POSITIONAL[@]}" # restore positional params
