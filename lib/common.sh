@@ -32,9 +32,9 @@ function xsleep() {
 
 }
 
-Timestamp() { date +%s }
-DateFormat() { date +%Y-%m-%d }
-TimeFormat() { date +%H:%M:%S }
+Timestamp() { date +%s; }
+DateFormat() { date +%Y-%m-%d; }
+TimeFormat() { date +%H:%M:%S; }
 
 join_arr() {
     local IFS="$1"
@@ -189,3 +189,13 @@ LoadConfigFile() {
     source ${CONFIG_PATH}
 }
 # LoadConfigFile $PLUG_DEST/unit.config
+
+
+fileepoch() {
+        date -r ${1} +%s
+}
+
+fileage() {
+        echo $[$(date +%s) - $(fileepoch $1)]
+
+}

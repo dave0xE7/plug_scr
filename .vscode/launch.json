@@ -12,11 +12,5 @@
             "program": "${workspaceFolder}/plug.sh",
             "args": []
         },
-        {
-            "type": "bashdb",
-            "request": "launch",
-            "name": "Bash-Debug (simplest configuration)",
-            "program": "plug.sh"
-        }
     ]
 }
