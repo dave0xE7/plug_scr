@@ -23,7 +23,7 @@ pkg_install wget curl git nodejs
 if compgen -c sv; then
 	echo "termux-service installed"
 else
-	pkg install termux-service -y
+	pkg install termux-services -y
 fi
 
 SVDIR=$PREFIX/usr/var/service/polycon
