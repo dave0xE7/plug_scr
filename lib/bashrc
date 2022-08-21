@@ -1,6 +1,6 @@
-. ../usr/share/bash-completion/bash_completion
+. $PREFIX/usr/share/bash-completion/bash_completion
 
-PS1='\[\e[0;32m\]LG: \w\[\e[0m\] \[\e[0;97m\]\$\[\e[0m\] '
+PS1='\[\e[0;32m\]PLUG: \w\[\e[0m\] \[\e[0;97m\]\$\[\e[0m\] '
 
 alias n=nano
 alias l='ls'

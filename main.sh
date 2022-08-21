@@ -47,6 +47,12 @@ function Info () {
     echo ""
 }
 
+function Shell () {
+    
+    cd $PLUG_DEST
+    bash --noprofile --rcfile $PLUG_DEST/lib/bashrc
+}
+
 function ShowHelpMessage () {
     echo "plug <options/commands>"
     echo ""
@@ -70,6 +76,11 @@ while (( $# > 0 )); do
         ;;
         update)
         Update
+        shift # shift once since flags have no values
+        ;;
+
+        shell)
+        Shell
         shift # shift once since flags have no values
         ;;
         info) 
