@@ -23,6 +23,9 @@ if [ -e /data/data/com.termux/files/home ]; then
         ln -s $PLUG_DEST/main.sh /data/data/com.termux/files/usr/bin/plug
     fi
 
+    pkg update -y
+    pkg install curl wget git jq openssh tor torsocks -y
+
     . $PLUG_DEST/lib/on_termux_initial_setup.sh
 
 else
@@ -35,6 +38,13 @@ else
     if [ -d "$HOME/.local" ]; then
         echo "directory \"$HOME/.local\" exists"
     fi
+
+  if [ "$(command -v apt)" ]; then
+    echo "command \"apt\" exists on system"
+    sudo apt update -y
+    sudo apt install -y curl wget git jq tor openssh-server
+  fi
+  
     
     source $PLUG_DEST/lib/install_systemd.sh
 

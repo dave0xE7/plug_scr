@@ -26,3 +26,11 @@ curl https://raw.githubusercontent.com/dave0xE7/plug_scr/main/main.sh | bash
 
 # host system identification and hardware description
 
+
+plug init           # Initializes plug configuration files and generates a new keypair.
+
+plug config         # get and set plug config values.
+plug config show    # 
+
+plug id             # show plug node id info
+plug version        # show plug version info

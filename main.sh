@@ -18,10 +18,24 @@ case "${0}" in
     esac
 
 if [ ! -n "$PLUG_DEST" ]; then
+
+    # if (( $(id -u) == 0 )); then
+    #     echo "I'm root"
+      
+    #     # if [ -d "/opt" ]; then
+    #     #     [[ -d "/opt/plug" ]] || (mkdir -vp "/opt/plug") && export PLUG_DEST="/opt/plug"
+    #     # fi
+
+    #     [[ -d /opt ]] &&
+    # fi
+    
+    
+    
     export PLUG_DEST="$HOME/.plug"
-else
-    echo "PLUG_DEST was already declared PLUG_DEST=$PLUG_DEST"
 fi
+# else
+#     echo "PLUG_DEST was already declared PLUG_DEST=$PLUG_DEST"
+# fi
 
 if [ -d "$PLUG_DEST" ]; then
     if [ -f "$PLUG_DEST/config.sh" ]; then
@@ -94,10 +108,6 @@ function ShowHelpMessage () {
 POSITIONAL=()
 while (( $# > 0 )); do
     case "${1}" in
-        -f|--flag)
-        echo flag: "${1}"
-        shift # shift once since flags have no values
-        ;;
         help|-h|--help)
         ShowHelpMessage
         shift # shift once since flags have no values
@@ -124,20 +134,19 @@ while (( $# > 0 )); do
         source $PLUG_DEST/lib/daemon.sh ${2}
         shift # shift once since flags have no values
         ;;
-        -s|--switch)
-        numOfArgs=1 # number of switch arguments
-        if (( $# < numOfArgs + 1 )); then
-            shift $#
-        else
-            echo "switch: ${1} with value: ${2}"
-            shift $((numOfArgs + 1)) # shift 'numOfArgs + 1' to bypass switch and its value
-        fi
-        ;;
+        # -s|--switch)
+        # numOfArgs=1 # number of switch arguments
+        # if (( $# < numOfArgs + 1 )); then
+        #     shift $#
+        # else
+        #     echo "switch: ${1} with value: ${2}"
+        #     shift $((numOfArgs + 1)) # shift 'numOfArgs + 1' to bypass switch and its value
+        # fi
+        # ;;
         *) # unknown flag/switch
         POSITIONAL+=("${1}")
         shift
         ;;
     esac
 done
-
 set -- "${POSITIONAL[@]}" # restore positional params
