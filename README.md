@@ -34,3 +34,9 @@ plug config show    #
 
 plug id             # show plug node id info
 plug version        # show plug version info
+
+
+
+# strategic autopilot
+
+    
